@@ -1,6 +1,6 @@
 # Be sure to restart your web server when you modify this file.
 
-# Uncomment below to force Rails into production mode when 
+# Uncomment below to force Rails into production mode when
 # you don't control web/app server and can't set it the proper way
 # ENV['RAILS_ENV'] ||= 'production'
 
@@ -10,14 +10,20 @@ RAILS_GEM_VERSION = '2.3.11' unless defined? RAILS_GEM_VERSION
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
+#USER_IMAGES_DIR = "timelog_images#{File::SEPARATOR}#{RAILS_ENV}"
+#Dir.mkdir(USER_IMAGES_DIR) if !File.directory?(USER_IMAGES_DIR)
+
 # Load Engine plugin if available
 begin
-  require File.join(File.dirname(__FILE__), '../vendor/plugins/engines/boot')
+	require File.join(File.dirname(__FILE__), '../vendor/plugins/engines/boot')
 rescue LoadError
-  # Not available
+# Not available
 end
 
 Rails::Initializer.run do |config|
+
+  config.action_controller.session = { :key => "0fad1234a123eeeddaffe", :secret => "c458c4b2c4bb8a5f042da1618d21234129876aab27c38" }
+  
   # Settings in config/environments/* take precedence those specified here
   
   # Skip frameworks you're not going to use
