@@ -22,11 +22,10 @@ require 'repositories_controller'
 class RepositoriesController; def rescue_action(e) raise e end; end
 
 class RepositoriesMercurialControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :roles, :members, :member_roles, :repositories, :enabled_modules
+  fixtures :projects, :users, :roles, :members, :member_roles,
+           :repositories, :enabled_modules
 
-  # No '..' in the repository path
-  REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') +
-                       '/tmp/test/mercurial_repository'
+  REPOSITORY_PATH = Rails.root.join('tmp/test/mercurial_repository').to_s
   CHAR_1_HEX = "\xc3\x9c"
   PRJ_ID     = 3
 
@@ -352,6 +351,17 @@ class RepositoriesMercurialControllerTest < ActionController::TestCase
                  :content => '23',
                  :attributes => { :class => 'line-num' },
                  :sibling => { :tag => 'td', :content => /watcher =/ }
+    end
+
+    def test_annotate_not_in_tip
+      @repository.fetch_changesets
+      @repository.reload
+      assert @repository.changesets.size > 0
+
+      get :annotate, :id => PRJ_ID,
+          :path => ['sources', 'welcome_controller.rb']
+      assert_response 404
+      assert_error_tag :content => /was not found/
     end
 
     def test_annotate_at_given_revision
