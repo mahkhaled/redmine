@@ -16,7 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module CustomFieldsHelper
-
+	
   def custom_fields_tabs
     tabs = [{:name => 'IssueCustomField', :partial => 'custom_fields/index', :label => :label_issue_plural},
             {:name => 'TimeEntryCustomField', :partial => 'custom_fields/index', :label => :label_spent_time},
