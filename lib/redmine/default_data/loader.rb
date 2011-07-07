@@ -40,6 +40,7 @@ module Redmine
           
           Role.transaction do
             # Roles
+            Role.reset_column_information
             manager = Role.create! :name => l(:default_role_manager), 
                                    :issues_visibility => 'all',
                                    :position => 1

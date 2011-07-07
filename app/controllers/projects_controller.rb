@@ -50,7 +50,8 @@ class ProjectsController < ApplicationController
         @projects = Project.visible.find(:all, :order => 'lft') 
       }
       format.api  {
-        @offset, @limit = api_offset_and_limit
+        @offset, @limit = api_off
+        set_and_limit
         @project_count = Project.visible.count
         @projects = Project.visible.all(:offset => @offset, :limit => @limit, :order => 'lft')
       }

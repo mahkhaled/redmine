@@ -258,3 +258,5 @@ ActionController::Routing::Routes.draw do |map|
   # Used for OpenID
   map.root :controller => 'account', :action => 'login'
 end
+
+
