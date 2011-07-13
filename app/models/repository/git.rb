@@ -127,7 +127,7 @@ class Repository::Git < Repository
       from_scmid = h["branches"][br]["last_scmid"] if h["branches"][br]
       h["branches"][br] ||= {}
       scm.revisions('', from_scmid, br, {:reverse => true}) do |rev|
-        db_rev = find_changeset_by_name(rev.revision)
+        db_rev = find_changeset_by_name(rev.identifier)
         transaction do
           if db_rev.nil?
             save_revision(rev)
