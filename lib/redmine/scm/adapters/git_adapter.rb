@@ -156,7 +156,7 @@ module Redmine
         end
         
         def update_mirrored_dir
-          cmd_args << %w|remote update|
+          cmd_args = %w|remote update|
           scm_cmd(*cmd_args)
         end
 
