@@ -107,6 +107,9 @@ class Repository::Git < Repository
   # The repository can still be fully reloaded by calling #clear_changesets
   # before fetching changesets (eg. for offline resync)
   def fetch_changesets
+    # update mirrored director
+    scm.update_mirrored_dir
+    
     scm_brs = branches
     return if scm_brs.nil? || scm_brs.empty?
     h1 = extra_info || {}

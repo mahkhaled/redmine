@@ -154,8 +154,13 @@ module Redmine
         rescue ScmCommandAborted
           nil
         end
+        
+        def update_mirrored_dir
+          cmd_args << %w|remote update|
+          scm_cmd(*cmd_args)
+        end
 
-        def lastrev(path, rev)
+        def lastrev(path, rev)  
           return nil if path.nil?
           cmd_args = %w|log --no-color --encoding=UTF-8 --date=iso --pretty=fuller --no-merges -n 1|
           cmd_args << rev if rev
