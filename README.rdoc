@@ -15,4 +15,4 @@ More details can be found at in the doc directory or on the official website htt
 Include scrummer module in the your redmine projects
 
 = Notes:
-  redmine pagination is by default (25,50,100). You can update it from config/settings.yml
+redmine pagination is by default (25,50,100). You can update it from config/settings.yml
