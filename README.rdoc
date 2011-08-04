@@ -14,5 +14,10 @@ More details can be found at in the doc directory or on the official website htt
 
 Include scrummer module in the your redmine projects
 
+= Cucumber Initializtion
+
+  rake db:test:prepare db:fixtures:load redmine_scrummer:load_default_data RAILS_ENV=test
+  cucumber
+
 = Notes:
 redmine pagination is by default (25,50,100). You can update it from config/settings.yml
