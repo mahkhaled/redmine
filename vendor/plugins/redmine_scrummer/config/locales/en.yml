@@ -12,7 +12,7 @@ en:
   label_scrum_user_stories: "User-Stories"
   label_scrum_sprint_planing: "Sprint Planning"
   label_scrum_release_planing: "Release Planning"
-  label_scrum_charts: "index Charts"
+  label_scrum_charts: "Charts"
   
   label_statistics: "Statistics"
   label_total_points: "Total Points:"
@@ -53,5 +53,5 @@ en:
   business_value: "Business Value"
   buffer_size: "Buffer size"
   start_date: "Start date"
-  
+
   default_description: "As a <role> I want to <goal> so that <reason>\nVerification Points:\n<Point1>\n<Point2>"

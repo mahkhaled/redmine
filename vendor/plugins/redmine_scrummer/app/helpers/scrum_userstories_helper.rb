@@ -192,15 +192,9 @@ module ScrumUserstoriesHelper
     value = column.value(issue)
     description = textilizable(issue.description).gsub("'","\'")
     
-    options = description.empty? ? {} : {:title=>"#{issue.subject}|#{description}", :class=>'subject-contents'};
+    options = {:title=>"#{issue.subject}|#{description}", :class=>'subject-contents'}
     
     link_to(h(value), {:controller => 'issues', :action => 'show', :id => issue }, options)
-  end
-  
-  def backlog_filter(tracker_id,label)
-      link_to_remote label,
-                    :url => {:controller => 'scrum_userstories', :action => 'issues_list', :list_id => 'backlog', :project_id =>@project, :tracker_id => tracker_id},
-                    :update => { :success => 'backlog'}
   end
   
 end

@@ -19,6 +19,13 @@ module RedmineScrummer
 				
 				before_save :init_was_new
 				
+				after_save :check_history_entries
+				
+				has_many :history,
+				         :class_name => 'IssueHistory',
+				         :table_name => 'issue_histories',
+				         :order => 'date DESC'
+				
 				# the same as .children but it is an association
 				# in order to be used in eager loading include
 				has_many :direct_children, :foreign_key => :parent_id, :class_name => "Issue"
@@ -34,7 +41,8 @@ module RedmineScrummer
                                                                 
         named_scope :by_tracker, lambda { |*args| {:conditions => ['tracker_id = ?', args.first]} }
         
-        named_scope :backlog, :conditions => {:fixed_version_id => nil}                      
+        named_scope :backlog, :conditions => {:fixed_version_id => nil}
+        
 			end
 			
 		end
@@ -140,10 +148,10 @@ module RedmineScrummer
         
         if value.to_f == 0.0
           custom_field ||= CustomField.find_by_scrummer_caption(:story_size)
-          value = (self.custom_value_for(custom_field).try(:value) || '').to_i
+          value = (self.custom_value_for(custom_field).try(:value) || '').to_f
         end
       
-        if self.story_size.to_i != value.to_i
+        if self.story_size.to_f != value.to_f
           self.update_attribute(:story_size, value)
           self.update_parent_story_size(custom_field)
         end
@@ -206,7 +214,32 @@ module RedmineScrummer
 			def init_was_new
         @was_a_new_record = self.new_record? if @was_a_new_record.nil?
         return true
-      end  
+      end
+			
+			def check_history_entries
+			  # Time-Untrackable issues have no history entry
+			  return unless self.time_trackable?
+			  
+			  # get the newest history entry
+			  history_entry = self.history.first
+			  
+			  # if it was today's entry just update it
+        if history_entry.date == Time.now.to_date
+          history_entry.update_attributes :actual => self.spent_hours,
+                                          :remaining => self.remaining_hours
+        # else build new history entry
+        else
+          self.build_history_entry.save
+        end
+			end
+			
+			public
+			
+			def build_history_entry
+			  IssueHistory.new :issue_id => self.id,
+			                   :actual => self.spent_hours,
+		                     :remaining => self.remaining_hours
+			end
 			
 		end
 	end
